@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Chapter 10 Events!</title>
+	<script src="https://unpkg.com/react@15.6.1/dist/react.js"></script>
+	<script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js"></script>
+	<style>
+	#container {
+		padding: 50px;
+		background-color: #FFF;
+	}
+	</style>
+</head>
+<body>
+	<div id="container"></div>
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+	<!-- Your custom script here -->
+	<script type="text/babel">
+	class Counter extends React.Component {
+		render() {
+			const textStyle = {
+				fontSize: 72,
+				fontFamily: "sans-serif",
+				color: "#333",
+				fontWeight: "bold"
+			};
+
+			return <div style={textStyle}>
+			{this.props.display}
+			</div>;
+		}
+	}
+	class CounterParent extends React.Component {
+		constructor(props) {
+			super(props);
+			this.state = {count: 0};
+
+			// this binding is necessary to make `this` work in the button handler
+			this.increase = this.increase.bind(this);
+		}
+		render() {
+			const backgroundStyle = {
+				padding: 50,
+				backgroundColor: "#FFC53A",
+				width: 250,
+				height: 100,
+				borderRadius: 10,
+				textAlign: "center"
+			};
+
+			const buttonStyle = {
+				fontSize: "1em",
+				width: 30,
+				height: 30,
+				fontFamily: "sans-serif",
+				color: "#333",
+				fontWeight: "bold",
+				lineHeight: "3px" //px is not automatically added for lineHeight
+			};
+
+			return <div style={backgroundStyle}>
+			<Counter display={this.state.count}/>
+			<button onClick={this.increase} style={buttonStyle}>+</button>
+			</div>;
+		}
+		increase(e) {
+			// this.setState() is async, so need to capture the shiftKey flag here before calling setState()
+			// since synthetic events are reused due to event pooling, referencing `e` inside setState() will trigger a warning
+			// due to e being released/nullified, and would need a e.persist() to keep it around. Easier if can avoid that.
+			const shift = e.shiftKey;
+			this.setState((prevState, props) => ({count: prevState.count+(shift?10:1)}));
+		}
+
+		// or use property initializer syntax to remove the need to call bind for this.increase in constructor()
+		/*
+		increase = (e) => {...}
+		*/
+	}
+	const destination = document.querySelector("#container");
+	ReactDOM.render(
+	<div>
+		<CounterParent/>
+	</div>, destination);
+	</script>
+</body>
+</html>

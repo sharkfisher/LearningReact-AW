@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Chapter 14 Todo List!</title>
+	<script src="https://unpkg.com/react@15.6.1/dist/react.js"></script>
+	<script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js"></script>
+	<style>
+	body {
+		padding: 50px;
+		background-color: #66CCFF;
+		font-family: sans-serif;
+	}
+	.todoListMain .header input {
+		padding: 10px;
+		font-size: 16px;
+		border: 2px solid #FFF;
+	}
+	.todoListMain .header button {
+		padding: 10px;
+		font-size: 16px;
+		margin: 10px;
+		background-color: #0066FF;
+		color: #FFF;
+		border: 2px solid #0066FF;
+	}
+	.todoListMain .header button:hover {
+		background-color: #003399;
+		border: 2px solid #003399;
+		cursor: pointer;
+	}
+	.todoListMain .theList {
+		list-style: none;
+		padding-left: 0;
+		width: 255px;
+	}
+	.todoListMain .theList li {
+		color: #333;
+		background-color: rgba(255, 255, 255, .5);
+		padding: 15px;
+		margin-bottom: 15px;
+		border-radius: 5px;
+	}
+	</style>
+</head>
+<body>
+	<div id="container"></div>
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+	<!-- Your custom script here -->
+	<script type="text/babel">
+	class TodoItems extends React.Component {
+		render() {
+			return <ul className="theList">
+			{this.props.entries.map(item => <li key={item.key}>{item.text}</li>)}
+			</ul>
+		}
+	}
+	class TodoList extends React.Component {
+		constructor(props) {
+			super(props);
+			this.state = {items: []};
+		}
+		addItem = e => {
+			console.log(e);
+			const val = {text: this._inputElement.value, key: Date.now()};
+			this.state.items.push(val);
+			this.setState({items: this.state.items}); //need to invoke this or this.forceUpdate() for render() to be called
+
+			this._inputElement.value = '';
+			this._inputElement.focus();
+			e.preventDefault(); // no default POST behavior by browser
+		}
+		render() {
+		return <div className="todoListMain">
+		<div className="header">
+		<form onSubmit={this.addItem}>
+		<input ref={a => this._inputElement = a} placeholder="enter task">
+		</input>
+		<button type="submit">add</button>
+		</form>
+		</div>
+		<TodoItems entries={this.state.items} />
+		</div>;
+		}
+	}
+	const destination = document.querySelector("#container");
+	ReactDOM.render(
+	<div>
+		<TodoList />
+	</div>, destination);
+	</script>
+</body>
+</html>

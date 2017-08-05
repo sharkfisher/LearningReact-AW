@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>React!</title>
+	<script src="https://unpkg.com/react@15.6.1/dist/react.js"></script>
+	<script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js"></script>
+	<style>
+	#container {
+		padding: 50px;
+		background-color: #EEE;
+	}
+	#container h1 {
+		font-size: 48px;
+		font-family: sans-serif;
+		color: #0080A8;
+	}
+	</style>
+</head>
+<body>
+	<div id="container"></div>
+	<div id="container2"></div>
+	<!-- Load Babel for in-browser transpiling of JSX -->
+	<!-- If using babel-core, 5.8.38 is last version supporting transpiling JSX, which has since been deprecated, requiring the use of babel-standalone -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script> -->
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+	<!-- Your custom script here -->
+<script type="text/babel">
+	let destination = document.querySelector("#container");
+	ReactDOM.render(
+		<h1>Sherlock Holmes</h1>,
+		destination
+	);
+ 	/*
+ 	// non JSX version, pure JS, no need for babel
+ 	ReactDOM.render(React.createElement(
+	"h2",
+	null,
+	"Batman"), destination);
+	*/
+
+	class HelloWorld extends React.Component {
+	render() {
+		return <p>Hello, {this.props.greetTarget}!</p>;
+	}
+	}
+	class Buttonify extends React.Component {
+		render() {
+			return <div>
+			<button type={this.props.behavior}>{this.props.children}</button>
+			</div>;
+		}
+	}
+
+	ReactDOM.render(
+	<div>
+	<HelloWorld greetTarget="Iron Man"/>
+	<HelloWorld greetTarget="J R"/>
+	<Buttonify behavior="submit">SEND DATA</Buttonify>
+	</div>,
+	document.querySelector("#container2"));
+</script>
+</body>
+</html>

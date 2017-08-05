@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Chapter 9!</title>
+	<script src="https://unpkg.com/react@15.6.1/dist/react.js"></script>
+	<script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js"></script>
+	<style>
+	#container {
+		padding: 50px;
+		background-color: #FFF;
+	}
+	</style>
+</head>
+<body>
+	<div id="container"></div>
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+	<!-- Your custom script here -->
+	<script type="text/babel">
+	class Circle extends React.Component {
+		render() {
+			const circleStyle = {
+				padding: 10,
+				margin: 20,
+				display: "inline-block",
+				backgroundColor: this.props.bgColor,
+				borderRadius: "50%",
+				width: 100,
+				height: 100
+			};
+
+			return <div style={circleStyle}>
+			</div>;
+		}
+	}
+
+	// JSX can live anywhere, even outside render()
+	function showCircle() {
+		const colors = ["#393E41", "#E94F37", "#1C89BF", "#A1D363"];
+		const ran = Math.floor(Math.random() * colors.length);
+		return <Circle bgColor={colors[ran]}/>;
+	}
+
+	// Rendering an array of JSX components
+	const colors = ["#393E41", "#E94F37", "#1C89BF", "#A1D363",
+	"#85FFC7", "#297373", "#FF8552", "#A40E4C"];
+	const renderData = [];
+	for (const i in colors) {
+		const c = colors[i];
+		renderData.push(<Circle key={i+c} bgColor={c}/>); //specify key prop to be a unique identifier for React to optimize UI updates
+	}
+	
+	const destination = document.querySelector("#container");
+	ReactDOM.render(
+	<div>
+		{showCircle()}
+		{renderData}
+	</div>, destination);
+	</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Chapter 13 SPA!</title>
+	<script src="https://unpkg.com/react@15.6.1/dist/react.js"></script>
+	<script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js"></script>
+	<script src="https://unpkg.com/react-router/umd/react-router.min.js"></script>
+	<script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+	<style>
+	body {
+		background-color: #FFCC00;
+		padding: 20px;
+		margin: 0;
+	}
+
+	h1, h2, p, ul, li {
+		font-family: Helvetica, Arial, sans-serif;
+	}
+
+	header ul li {
+		display: inline;
+		list-style-type: none;
+		margin: 0;
+	}
+
+	header ul {
+		background-color: #111;
+		padding: 0;
+	}
+
+	header ul li a {
+		color: #FFF;
+		font-weight: bold;
+		text-decoration: none;
+		padding: 20px;
+		display: inline-block;
+	}
+
+	main {
+		background-color: #FFF;
+		padding: 20px;
+	}
+
+	main h2 {
+		padding: 0;
+		margin: 0;
+	}
+
+	main li {
+		margin-bottom: 10px;
+	}
+
+	.active {
+		background-color: #0099FF;
+	}
+
+	</style>
+</head>
+<body>
+	<div id="container"></div>
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+	<!-- Your custom script here -->
+	<script type="text/babel">
+	// object destructuring in ES6
+	const {HashRouter, Switch, Route, NavLink} = window.ReactRouterDOM; //"window." is optional here
+	const Home = () => (
+		<div>
+		<h2>Hello</h2>
+		</div>
+	);
+	const Stuff = () => (
+		<div>
+			<h2>Stuff</h2>
+		</div>
+	);
+	const Contact = () => (
+		<div>
+		<h2>Contact</h2>
+		</div>
+	);
+	const Header = () => (
+		<header>
+		<nav>
+		<ul>
+			<li><NavLink exact to="/" activeClassName="active">Home</NavLink></li>
+			<li><NavLink to="/stuff" activeClassName="active">Stuff</NavLink></li>
+			<li><NavLink to="/contact" activeClassName="active">Contact</NavLink></li>
+		</ul>
+		</nav>
+		</header>		
+	);
+	const Main = () => (
+		<main>
+		<Switch>
+			<Route exact path='/' component={Home} />
+			<Route path='/stuff' component={Stuff} />
+			<Route path='/contact' component={Contact} />
+		</Switch>
+		</main>
+	);
+	const App = () => (
+		<div>
+			<h1>Simple SPA</h1>
+			<Header/>
+			<Main />
+		</div>
+	);
+
+	const destination = document.querySelector("#container");
+	ReactDOM.render(
+	<HashRouter>
+		<App />
+	</HashRouter>
+	, destination);
+	</script>
+</body>
+</html>
